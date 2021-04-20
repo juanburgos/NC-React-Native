@@ -4,14 +4,14 @@ import { baseUrl } from '../shared/baseUrl';
 export const fetchComments = () => dispatch => {
     return fetch(baseUrl + 'comments')
         .then(response => {
-                if (response.ok) {
-                    return response;
-                } else {
-                    const error = new Error(`Error ${response.status}: ${response.statusText}`);
-                    error.response = response;
-                    throw error;
-                }
-            },
+            if (response.ok) {
+                return response;
+            } else {
+                const error = new Error(`Error ${response.status}: ${response.statusText}`);
+                error.response = response;
+                throw error;
+            }
+        },
             error => {
                 const errMess = new Error(error.message);
                 throw errMess;
@@ -34,27 +34,27 @@ export const addComments = comments => ({
 export const addComment = (comment) => ({
     type: ActionTypes.ADD_COMMENT,
     payload: comment,
-  });
-  
-  export const postComment = (campsiteId, rating, author, text) => (dispatch) => {
+});
+
+export const postComment = (campsiteId, rating, author, text) => (dispatch) => {
     const newComment = {
-      campsiteId: campsiteId,
-      rating: rating,
-      author: author,
-      text: text,
+        campsiteId: campsiteId,
+        rating: rating,
+        author: author,
+        text: text,
     };
     newComment.date = new Date().toISOString();
-    
-    setTimeout(function(){ alert("Hello"); }, 2000);
+
+    setTimeout(function () { alert("Comment Added"); }, 2000);
 
     return fetch(baseUrl + "comments", {
-      method: "POST",
-      body: JSON.stringify(newComment),
-      headers: {
-        "Content-Type": "application/json",
-      },
+        method: "POST",
+        body: JSON.stringify(newComment),
+        headers: {
+            "Content-Type": "application/json",
+        },
     })
-  };
+};
 
 export const fetchCampsites = () => dispatch => {
 
@@ -62,14 +62,14 @@ export const fetchCampsites = () => dispatch => {
 
     return fetch(baseUrl + 'campsites')
         .then(response => {
-                if (response.ok) {
-                    return response;
-                } else {
-                    const error = new Error(`Error ${response.status}: ${response.statusText}`);
-                    error.response = response;
-                    throw error;
-                }
-            },
+            if (response.ok) {
+                return response;
+            } else {
+                const error = new Error(`Error ${response.status}: ${response.statusText}`);
+                error.response = response;
+                throw error;
+            }
+        },
             error => {
                 const errMess = new Error(error.message);
                 throw errMess;
@@ -94,19 +94,19 @@ export const addCampsites = campsites => ({
 });
 
 export const fetchPromotions = () => dispatch => {
-    
+
     dispatch(promotionsLoading());
 
     return fetch(baseUrl + 'promotions')
         .then(response => {
-                if (response.ok) {
-                    return response;
-                } else {
-                    const error = new Error(`Error ${response.status}: ${response.statusText}`);
-                    error.response = response;
-                    throw error;
-                }
-            },
+            if (response.ok) {
+                return response;
+            } else {
+                const error = new Error(`Error ${response.status}: ${response.statusText}`);
+                error.response = response;
+                throw error;
+            }
+        },
             error => {
                 const errMess = new Error(error.message);
                 throw errMess;
@@ -131,19 +131,19 @@ export const addPromotions = promotions => ({
 });
 
 export const fetchPartners = () => dispatch => {
-    
+
     dispatch(partnersLoading());
 
     return fetch(baseUrl + 'partners')
         .then(response => {
-                if (response.ok) {
-                    return response;
-                } else {
-                    const error = new Error(`Error ${response.status}: ${response.statusText}`);
-                    error.response = response;
-                    throw error;
-                }
-            },
+            if (response.ok) {
+                return response;
+            } else {
+                const error = new Error(`Error ${response.status}: ${response.statusText}`);
+                error.response = response;
+                throw error;
+            }
+        },
             error => {
                 const errMess = new Error(error.message);
                 throw errMess;
