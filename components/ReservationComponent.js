@@ -89,9 +89,9 @@ class Reservation extends Component {
                                 Alert.alert(
                                     'Begin Search?',
 
-                                    'Number of Campers: ' + this.state.campers + '\n' +
+                                    'Number of Campers: ' + this.state.campers + '\n' + 
                                     'Hike-In? ' + this.state.hikeIn + '\n' +
-                                    'Date: ' + this.state.date,
+                                    'Date: ' + this.state.date.getMonth() + '/' + this.state.date.getDay() + '/' + this.state.date.getFullYear(),
 
                                     [
                                         {
@@ -113,15 +113,11 @@ class Reservation extends Component {
                                     { cancelable: false }
                                 )
                             }
-
-
-
                             title='Search'
                             color='#5637DD'
                             accessibilityLabel='Tap me to search for available campsites to reserve'
                         />
                     </View>
-
                 </Animatable.View>
             </ScrollView>
         );
