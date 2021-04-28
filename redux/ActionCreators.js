@@ -36,24 +36,19 @@ export const addComment = (comment) => ({
     payload: comment,
 });
 
-export const postComment = (campsiteId, rating, author, text) => (dispatch) => {
+export const postComment = (campsiteId, rating, author, text) => dispatch => {
+    const setDate = new Date();
+    const date = setDate.toISOString();
     const newComment = {
-        campsiteId: campsiteId,
-        rating: rating,
-        author: author,
-        text: text,
+        campsiteId,
+        rating,
+        author,
+        text,
+        date
     };
-    newComment.date = new Date().toISOString();
-
-    setTimeout(function () { alert("Comment Added"); }, 2000);
-
-    return fetch(baseUrl + "comments", {
-        method: "POST",
-        body: JSON.stringify(newComment),
-        headers: {
-            "Content-Type": "application/json",
-        },
-    })
+    setTimeout(() => {
+        dispatch(addComment(newComment));
+    }, 2000);
 };
 
 export const fetchCampsites = () => dispatch => {

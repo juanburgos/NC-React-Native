@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, ScrollView, FlatList, Modal, Button, StyleSheet, Alert, PanResponder } from 'react-native';
+import { Text, View, ScrollView, FlatList, Modal, Button, StyleSheet, Alert, PanResponder, Share } from 'react-native';
 import { Card, Icon, Input, Rating } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { baseUrl } from '../shared/baseUrl';
@@ -64,6 +64,16 @@ function RenderCampsite(props) {
         }
     });
 
+    const shareCampsite = (title, message, url) => {
+        Share.share({
+            title: title,
+            message: `${title}: ${message} ${url}`,
+            url: url
+        }, {
+            dialogTitle: 'Share ' + title
+        });
+    };
+
     if (campsite) {
         return (
             <Animatable.View animation='fadeInDown' duration={2000} delay={1000} ref={view} {...panResponder.panHandlers}>
@@ -92,6 +102,14 @@ function RenderCampsite(props) {
                             onPress={() => props.onShowModal()}
 
                         />
+                        <Icon
+                            name={'share'}
+                            type='font-awesome'
+                            color='#5637DD'
+                            raised
+                            reverse
+                            onPress={() => shareCampsite(campsite.name, campsite.description, baseUrl + campsite.image)}
+                        />
                     </View>
                 </Card>
             </Animatable.View>
@@ -100,15 +118,16 @@ function RenderCampsite(props) {
     return <View />;
 }
 
-function RenderComments({ comments }) {
-
+function RenderComments(props) {
+    const { comments } = props;
+    const { rating } = props;
     const renderCommentItem = ({ item }) => {
         return (
             <View style={{ margin: 10 }}>
                 <Text style={{ fontSize: 14 }}>{item.text}</Text>
                 <Rating
                     readonly
-                    startingValue={item.rating}
+                    startingValue={rating}
                     imageSize={10}
                     style={{ alignItems: 'flex-start', paddingVertical: '5%' }}
                 />
@@ -149,8 +168,9 @@ class CampsiteInfo extends Component {
     }
 
     handleComment(campsiteId) {
-        this.props.postComment(campsiteId, this.state.rating, this.state.author, this.state.text);
         this.toggleModal();
+        this.props.postComment(campsiteId, this.state.rating, this.state.author, this.state.text);
+
     }
 
     resetForm() {
@@ -181,7 +201,7 @@ class CampsiteInfo extends Component {
                     markFavorite={() => this.markFavorite(campsiteId)}
                     onShowModal={() => this.toggleModal()}
                 />
-                <RenderComments comments={comments} />
+                <RenderComments comments={comments} rating={this.state.rating} />
 
                 <Modal
                     animationType={'slide'}
@@ -189,30 +209,31 @@ class CampsiteInfo extends Component {
                     visible={this.state.showModal}
                     onRequestClose={() => this.toggleModal()}
                 >
-                    <Rating
-                        showRating={true}
-                        startingValue={this.state.rating}
-                        imageSize={40}
-                        onFinishRating={rating => this.setState({ rating: rating })}
-                        style={{ paddingVertical: 10 }}
-                    />
-
-                    <Input
-                        placeholder='Author'
-                        leftIcon={{ type: 'font-awesome', name: 'user-o' }}
-                        leftIconContainerStyle={{ paddingRight: 10 }}
-                        onChangeText={text => this.setState({ text: text })}
-                        value={this.state.author}
-                    />
-                    <Input
-                        placeholder='Comment'
-                        leftIcon={{ type: 'font-awesome', name: 'comment-o' }}
-                        leftIconContainerStyle={{ paddingRight: 10 }}
-                        onChangeText={text => this.setState({ text: text })}
-                        value={this.state.text}
-                    />
-
                     <View style={styles.modal}>
+                        <Rating
+                            showRating={true}
+                            startingValue={this.state.rating}
+                            imageSize={40}
+                            onFinishRating={rating => this.setState({ rating: rating })}
+                            style={{ paddingVertical: 10 }}
+                        />
+
+                        <Input
+                            placeholder='Author'
+                            leftIcon={{ type: 'font-awesome', name: 'user-o' }}
+                            leftIconContainerStyle={{ paddingRight: 10 }}
+                            onChangeText={author => this.setState({ author: author })}
+                            value={this.state.author}
+                        />
+                        
+                        <Input
+                            placeholder='Comment'
+                            leftIcon={{ type: 'font-awesome', name: 'comment-o' }}
+                            leftIconContainerStyle={{ paddingRight: 10 }}
+                            onChangeText={comment => this.setState({ text: comment })}
+                            value={this.state.comment}
+                        />
+
                         <View style={{ margin: 10 }}>
                             <Button
                                 title='Submit'
@@ -224,10 +245,7 @@ class CampsiteInfo extends Component {
 
                             />
                         </View>
-                    </View>
 
-
-                    <View style={styles.modal}>
                         <View style={{ margin: 10 }}>
                             <Button
                                 onPress={() => {
@@ -240,7 +258,6 @@ class CampsiteInfo extends Component {
 
                         </View>
                     </View>
-
 
                 </Modal>
             </ScrollView>
