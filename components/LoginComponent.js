@@ -41,9 +41,9 @@ class Login extends Component {
             .then(userdata => {
                 const userinfo = JSON.parse(userdata);
                 if (userinfo) {
-                    this.setState({username: userinfo.username});
-                    this.setState({password: userinfo.password});
-                    this.setState({remember: true})
+                    this.setState({ username: userinfo.username });
+                    this.setState({ password: userinfo.password });
+                    this.setState({ remember: true })
                 }
             });
     }
@@ -53,16 +53,16 @@ class Login extends Component {
             <View style={styles.container}>
                 <Input
                     placeholder='Username'
-                    leftIcon={{type: 'font-awesome', name: 'user-o'}}
-                    onChangeText={username => this.setState({username})}
+                    leftIcon={{ type: 'font-awesome', name: 'user-o' }}
+                    onChangeText={username => this.setState({ username })}
                     value={this.state.username}
                     containerStyle={styles.formInput}
                     leftIconContainerStyle={styles.formIcon}
                 />
                 <Input
                     placeholder='Password'
-                    leftIcon={{type: 'font-awesome', name: 'key'}}
-                    onChangeText={password => this.setState({password})}
+                    leftIcon={{ type: 'font-awesome', name: 'key' }}
+                    onChangeText={password => this.setState({ password })}
                     value={this.state.password}
                     containerStyle={styles.formInput}
                     leftIconContainerStyle={styles.formIcon}
@@ -71,7 +71,7 @@ class Login extends Component {
                     title='Remember Me'
                     center
                     checked={this.state.remember}
-                    onPress={() => this.setState({remember: !this.state.remember})}
+                    onPress={() => this.setState({ remember: !this.state.remember })}
                     containerStyle={styles.formCheckbox}
                 />
                 <View style={styles.formButton}>

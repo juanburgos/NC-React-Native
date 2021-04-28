@@ -177,7 +177,7 @@ const LoginNavigator = createStackNavigator(
         Login: { screen: Login }
     },
     {
-        defaultNavigationOptions: ({navigation}) => ({
+        defaultNavigationOptions: ({ navigation }) => ({
             headerStyle: {
                 backgroundColor: '#5637DD'
             },
@@ -218,7 +218,7 @@ const MainNavigator = createDrawerNavigator(
         Login: {
             screen: LoginNavigator,
             navigationOptions: {
-                drawerIcon: ({tintColor}) => (
+                drawerIcon: ({ tintColor }) => (
                     <Icon
                         name='sign-in'
                         type='font-awesome'
